@@ -1,5 +1,4 @@
 def call(Map config){
-    String count = config.containsKey('count') ? config.count : '1'
     String platformType = config.platformType ?: 'static'
     String machineType = config.machineType ?: 'cloud'
     String cloudProvider = null
@@ -10,14 +9,14 @@ def call(Map config){
     if (platformType == 'static'){
         if (machineType == 'cloud'){
             if ( cloudProvider == 'aws'){
-                echo count
                 echo platformType
                 echo machineType
                 echo cloudProvider
 
                 node{
-                    stage("Deploy ${count} ${machineType} host(s) on ${cloudProvider}"){
+                    stage("Provision infra"){
                         ansiColor('xterm') {
+                            echo "Deploying ${machineType} host on ${cloudProvider}"
                             ansibleTower credential: '',
                                     extraVars: '''---
                                     job: "${JOB_NAME}"
@@ -31,7 +30,7 @@ def call(Map config){
                                     removeColor: false,
                                     templateType: 'workflow',
                                     towerServer: 'Local Tower',
-                                    verbose: true
+                                    verbose: false
                         }
                     }
                 }
