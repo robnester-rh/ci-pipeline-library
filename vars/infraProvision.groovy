@@ -10,6 +10,11 @@ def call(Map config){
     if (platformType == 'static'){
         if (machineType == 'cloud'){
             if ( cloudProvider == 'aws'){
+                echo count
+                echo platformType
+                echo machineType
+                echo cloudProvider
+                
                 node{
                     stage("Deploy ${count} ${machineType} host(s) on ${cloudProvider}"){
                         ansiColor('xterm') {
