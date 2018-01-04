@@ -1,5 +1,5 @@
 def call(Map config){
-    Integer count = config.containsKey('count') ? config.count : 1
+    String count = config.containsKey('count') ? config.count : '1'
     String platformType = config.platformType ?: 'static'
     String machineType = config.machineType ?: 'cloud'
     String cloudProvider = null
@@ -14,7 +14,7 @@ def call(Map config){
                 echo platformType
                 echo machineType
                 echo cloudProvider
-                
+
                 node{
                     stage("Deploy ${count} ${machineType} host(s) on ${cloudProvider}"){
                         ansiColor('xterm') {
