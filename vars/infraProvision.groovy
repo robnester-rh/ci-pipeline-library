@@ -9,9 +9,6 @@ def call(Map config){
     if (platformType == 'static'){
         if (machineType == 'cloud'){
             if ( cloudProvider == 'aws'){
-                echo platformType
-                echo machineType
-                echo cloudProvider
 
                 node{
                     stage("Provision infra"){
