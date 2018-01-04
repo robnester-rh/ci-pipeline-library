@@ -10,7 +10,7 @@ def call(Map config){
     if (platformType == 'static'){
         if (machineType == 'cloud'){
             if ( cloudProvider == 'aws'){
-                node(){
+                node{
                     stage("Deploy ${count} ${machineType} host(s) on ${cloudProvider}"){
                         ansiColor('xterm') {
                             ansibleTower credential: '',
@@ -30,8 +30,6 @@ def call(Map config){
                         }
                     }
                 }
-
-
             }
 
         } else if ( machineType == 'baremetal') {
