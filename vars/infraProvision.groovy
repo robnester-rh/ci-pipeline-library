@@ -1,6 +1,10 @@
+@Grab( 'org.yaml:snakeyaml' )
+import org.yaml.snakeyaml.Yaml
+
 def call() {
 
-    configYaml = env.configYaml
+    def configYaml = new Yaml().load( env.configYaml )
+
     echo "From infraProvision"
     echo configYaml.getClass().toString()
     echo configYaml
