@@ -1,6 +1,6 @@
 def call() {
 
-    echo env.configYaml.infra
+    echo env.configYaml
 
     def cloudConfig = env.configYaml.infra.cloud ?: null
     def baremetalConfig = env.configYaml.infra.baremetal ?: null
