@@ -1,17 +1,12 @@
-@Grab( 'org.yaml:snakeyaml' )
-import org.yaml.snakeyaml.Yaml
-
 def call() {
 
-    def configYaml = new Yaml().load( env.configYaml )
-
     echo "From infraProvision"
-    echo configYaml.getClass().toString()
-    echo configYaml
+    echo env.configYaml.getClass().toString()
 
-    def cloudConfig = configYaml['infra']['cloud'] ?: null
-    def baremetalConfig = configYaml['infra']['baremetal'] ?: null
-    def containerConfig = configYaml['infra']['container'] ?: null
+
+    def cloudConfig = env.configYaml['infra']['cloud'] ?: null
+    def baremetalConfig = env.configYaml['infra']['baremetal'] ?: null
+    def containerConfig = env.configYaml['infra']['container'] ?: null
 
     if (cloudConfig) {
         echo cloudConfig
