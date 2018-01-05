@@ -2,9 +2,9 @@ def call() {
 
     echo env.configYaml.infra
 
-    cloudConfig = env.configYaml.infra.cloud ?: null
-    baremetalConfig = env.configYaml.infra.baremetal ?: null
-    containerConfig = env.configYaml.infra.container ?: null
+    def cloudConfig = env.configYaml.infra.cloud ?: null
+    def baremetalConfig = env.configYaml.infra.baremetal ?: null
+    def containerConfig = env.configYaml.infra.container ?: null
 
     if (cloudConfig) {
         cloudConfig.each { provisionCloud(it.type, it.count) }
