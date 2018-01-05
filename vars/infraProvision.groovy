@@ -1,10 +1,10 @@
-def call(configYaml) {
+def call() {
 
-    configYaml = configYaml ?: env.configYaml
+    configYaml = env.configYaml
 
     def cloudConfig = configYaml['infra']['cloud'] ?: null
-    def baremetalConfig = configYaml.infra.baremetal ?: null
-    def containerConfig = configYaml.infra.container ?: null
+    def baremetalConfig = configYaml['infra']['baremetal'] ?: null
+    def containerConfig = configYaml['infra']['container'] ?: null
 
     if (cloudConfig) {
         echo cloudConfig.toString()
