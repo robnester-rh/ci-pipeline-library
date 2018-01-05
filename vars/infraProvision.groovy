@@ -20,7 +20,7 @@ def call(configYaml) {
 
 def provisionCloud(type, count) {
     println("Provisioning ${count} host(s) on ${type}")
-    if (type.toLower() == 'aws') {
+    if (type.toLowerCase() == 'aws') {
         for ( i in count.toInteger() ) {
             node{
                 stage("Provisioning infra"){
