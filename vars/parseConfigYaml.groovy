@@ -8,11 +8,13 @@ def call(String filename="config"){
     try{
         echo "Found ${filename}.yaml"
         env.configYaml = parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
+        exit
 
     } catch ( FileNotFoundException ){
         try{
             echo "Found ${filename}.yml"
             env.configYaml = parser.load(("${WORKSPACE}/${filename}.yml" as File).text)
+            exit
 
         } catch ( FileNotFoundException e ){
             println(e)
