@@ -6,8 +6,11 @@ def call(configYaml) {
 
     if (cloudConfig) {
         for ( config in cloudConfig ) {
-            provisionCloud(config.type, config.count)
+            if (config.type == 'aws') {
+                provisionCloud(config.type, config.count)
+            }
         }
+    }
 //        cloudConfig.each { provisionCloud(it.type, it.count) }
 
     }
