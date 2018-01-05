@@ -21,7 +21,6 @@ def call(configYaml) {
 def provisionCloud(type, count) {
     println("Provisioning ${count} host(s) on ${type}")
     if (type.toLowerCase() == 'aws') {
-
         node{
             stage("Provisioning infra"){
                 ansiColor('xterm') {
