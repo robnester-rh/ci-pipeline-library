@@ -17,4 +17,5 @@ def call(String filename="config"){
         }
     }
     env.configYaml = configYaml
+    echo ${env.configYaml}
 }
