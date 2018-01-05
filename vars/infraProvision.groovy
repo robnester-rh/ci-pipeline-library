@@ -21,7 +21,7 @@ def call() {
 def provisionCloud(type, count) {
     println("Provisioning ${count} host(s) on ${type}")
     if (type.toLower() == 'aws') {
-        for ( i in count as int ) {
+        for ( i in count.toInteger() ) {
             node{
                 stage("Provisioning infra"){
                     ansiColor('xterm') {
