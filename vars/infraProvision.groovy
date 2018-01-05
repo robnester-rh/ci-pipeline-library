@@ -1,47 +1,48 @@
-def call(Map config){
-    String platformType = config.platformType ?: 'static'
-    String machineType = config.machineType ?: 'cloud'
-    String cloudProvider = null
-    if ( machineType == 'cloud' ){
-        cloudProvider = config.cloudProvider ?: 'aws'
+def call() {
+
+    cloudConfig = env.configYaml.infra.cloud ?: null
+    baremetalConfig = env.configYaml.infra.baremetal ?: null
+    containerConfig = env.configYaml.infra.container ?: null
+
+    if (cloudConfig) {
+        cloudConfig.each { provisionCloud(it.type, it.count) }
+
     }
 
-    if (platformType == 'static'){
-        if (machineType == 'cloud'){
-            if ( cloudProvider == 'aws'){
+    if (baremetalConfig) {
 
-                node{
-                    stage("Provision infra"){
-                        ansiColor('xterm') {
-                            echo "Deploying ${machineType} host on ${cloudProvider}"
-                            ansibleTower credential: '',
-                                    extraVars: '''---
-                                    job: "${JOB_NAME}"
-                                    build: "${BUILD_NUMBER}"''',
-                                    importTowerLogs: true,
-                                    importWorkflowChildLogs: true,
-                                    inventory: '',
-                                    jobTags: '',
-                                    jobTemplate: 'Provision RHEL on AWS',
-                                    limit: '',
-                                    removeColor: false,
-                                    templateType: 'workflow',
-                                    towerServer: 'Local Tower',
-                                    verbose: false
-                        }
+    }
+
+    if (containerConfig) {
+
+    }
+}
+
+def provisionCloud(type, count) {
+    println("Provisioning ${count} host(s) on ${type}")
+    if (type.toLower() == 'aws') {
+        for ( i in count as int ) {
+            node{
+                stage("Provisioning infra"){
+                    ansiColor('xterm') {
+                        echo "Deploying ${machineType} host on ${cloudProvider}"
+                        ansibleTower credential: '',
+                                extraVars: '''---
+                                        job: "${JOB_NAME}"
+                                        build: "${BUILD_NUMBER}"''',
+                                importTowerLogs: true,
+                                importWorkflowChildLogs: true,
+                                inventory: '',
+                                jobTags: '',
+                                jobTemplate: 'Provision RHEL on AWS',
+                                limit: '',
+                                removeColor: false,
+                                templateType: 'workflow',
+                                towerServer: 'Local Tower',
+                                verbose: false
                     }
                 }
             }
-
-        } else if ( machineType == 'baremetal') {
-
-        } else {
-            print("Invalid machine type")
         }
-
-    } else if (platformType == 'dynamic'){
-
-    } else {
-        print("Invalid platform type")
     }
 }
