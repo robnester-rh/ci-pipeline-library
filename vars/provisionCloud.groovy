@@ -1,7 +1,7 @@
 def call(type, count) {
     println("Provisioning ${count} host(s) on ${type}")
     if (type.toLowerCase() == 'aws') {
-        node{
+        node(){
             stage("Provisioning infra"){
                 ansiColor('xterm') {
                     echo "Deploying ${machineType} host on ${cloudProvider}"
