@@ -5,7 +5,10 @@ def call(configYaml) {
     def containerConfig = configYaml.infra.container ?: null
 
     if (cloudConfig) {
-        cloudConfig.each { provisionCloud(it.type, it.count) }
+        for ( config in cloudConfig ) {
+            provisionCloud(config.type, config.count)
+        }
+//        cloudConfig.each { provisionCloud(it.type, it.count) }
 
     }
 
