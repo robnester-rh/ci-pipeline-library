@@ -3,7 +3,6 @@
 import org.yaml.snakeyaml.Yaml
 import infraProvision
 
-@NonCPS
 def call(String filename="config"){
     Yaml parser = new Yaml()
 

@@ -18,7 +18,6 @@ def call(configYaml) {
     }
 }
 
-@NonCPS
 def provisionCloud(type, count) {
     println("Provisioning ${count} host(s) on ${type}")
     if (type.toLowerCase() == 'aws') {
