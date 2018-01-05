@@ -6,16 +6,17 @@ def call(String filename="config"){
     Yaml parser = new Yaml()
 
     try{
-        configYaml = parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
+        def configYaml = parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
+        env.configYaml = configYaml
     } catch ( FileNotFoundException ){
         try{
-            configYaml = parser.load(("${WORKSPACE}/${filename}.yml" as File).text)
+            def configYaml = parser.load(("${WORKSPACE}/${filename}.yml" as File).text)
+            env.configYaml = configYaml
         } catch ( FileNotFoundException e ){
             println(e)
             System.exit(1)
 
         }
     }
-    env.configYaml = configYaml
     echo env.configYaml
 }
