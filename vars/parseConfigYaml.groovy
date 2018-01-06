@@ -6,7 +6,7 @@ def call(String filename="config"){
     Yaml parser = new Yaml()
 
     try{
-        env.configYaml = parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
+        LinkedHashMap configYaml = (LinkedHashMap) parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
         echo "Found ${filename}.yaml"
 
 
