@@ -2,8 +2,9 @@
 package org.centos.pipeline
 
 import org.centos.*
-
 import groovy.json.JsonSlurper
+
+
 
 /**
  * Library to setup and configure the host the way ci-pipeline requires
@@ -1061,23 +1062,29 @@ def watchForMessages(String msg_provider, String message) {
     }
 }
 
-def parseConfigYaml(String filename="config"){
-    Yaml parser = new Yaml()
-
-    try{
-        env.configYaml = parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
-        echo "Found ${filename}.yaml"
-
-
-    } catch ( FileNotFoundException ){
-        try{
-            env.configYaml = parser.load(("${WORKSPACE}/${filename}.yml" as File).text)
-            echo "Found ${filename}.yml"
-
-        } catch ( FileNotFoundException e ){
-            println(e)
-            System.exit(1)
-
+def provisionCloud(type, count) {
+    println("Provisioning ${count} host(s) on ${type}")
+    if (type.toLowerCase() == 'aws') {
+        env.aws_host_count = count
+        stage("Provisioning infra"){
+            ansiColor('xterm') {
+                ansibleTower credential: '',
+                        extraVars: '''---
+                        job: "${JOB_NAME}"
+                        build: "${BUILD_NUMBER}"
+                        count: "${aws_host_count}"
+                        ''',
+                        importTowerLogs: false,
+                        importWorkflowChildLogs: false,
+                        inventory: '',
+                        jobTags: '',
+                        jobTemplate: "Provision RHEL on ${type.toUpperCase()}",
+                        limit: '',
+                        removeColor: false,
+                        templateType: 'workflow',
+                        towerServer: 'Local Tower',
+                        verbose: false
+            }
         }
     }
 }

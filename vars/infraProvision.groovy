@@ -1,25 +1,25 @@
+import groovy.json.*
+import org.centos.pipeline.PipelineUtils
+
+@NonCPS
 def call() {
+    def parser = new JsonSlurperClassic()
+    def configJSON = parser.parseText(env.configJSON.toString())
+    def pipelineUtils = new PipelineUtils()
 
-    echo "From infraProvision"
-    echo env.configYaml.getClass().toString()
-    echo env.configYaml
+    def cloudConfig = configJSON.infra.cloud ?: null
+    def baremetalConfig = configJSON.infra.baremetal ?: null
+    def containerConfig = configJSON.infra.container ?: null
 
-
-//    def cloudConfig = env.configYaml['infra']['cloud'] ?: null
-//    def baremetalConfig = env.configYaml['infra']['baremetal'] ?: null
-//    def containerConfig = env.configYaml['infra']['container'] ?: null
-//
-//    if (cloudConfig) {
-//        echo cloudConfig
-//        provisionCloud(cloudConfig[0]['type'], cloudConfig[0]['count'])
-//
-//        cloudConfig.each { provisionCloud(it.type, it.count) }
-//        for ( config in cloudConfig ) {
-//            if (config.type == 'aws') {
-//                provisionCloud(config.type, config.count)
-//            }
-//        }
-//    }
+    if (cloudConfig) {//
+        for ( config in cloudConfig ) {
+            if (config.type == 'aws') {
+                String type = config.type
+                String count = config.count
+                pipelineUtils.provisionCloud(type, count)
+            }
+        }
+    }
 //
 //    if (baremetalConfig) {
 //

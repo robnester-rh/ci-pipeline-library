@@ -229,6 +229,15 @@ class pipelineUtils implements Serializable {
         pipelineUtils.updateBuildDisplayAndDescription()
     }
 
+    /**
+     *
+     * @param filename
+     * @return
+     */
+    def parseConfigYaml(String filename="config"){
+        pipelineUtils.parseConfigYaml(filename)
+    }
+
 /**
  * Check data grepper for presence of a message
  * @param messageID message ID to track.

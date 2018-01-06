@@ -1,19 +1,29 @@
 @Grab('org.yaml:snakeyaml')
 
 import org.yaml.snakeyaml.Yaml
+import groovy.json.*
 
+/**
+ * This method reads a yaml file and parses it to JSON so that it can be
+ * serialized/deserialized easily and passed around within the pipeline.
+ *
+ * @param filename
+ * @return
+ */
 def call(String filename="config"){
     Yaml parser = new Yaml()
 
+    String configYaml = null
     try{
-        LinkedHashMap configYaml = (LinkedHashMap) parser.load(("${WORKSPACE}/${filename}.yaml" as File).text)
+        env.configJSON = new JsonBuilder(parser.load(("${WORKSPACE}/${filename}.yaml" as File).text))
         echo "Found ${filename}.yaml"
 
 
     } catch ( FileNotFoundException ){
         try{
-            env.configYaml = parser.load(("${WORKSPACE}/${filename}.yml" as File).text)
+            env.configJSON = new JsonBuilder(parser.load(("${WORKSPACE}/${filename}.yml" as File).text))
             echo "Found ${filename}.yml"
+
 
         } catch ( FileNotFoundException e ){
             println(e)
