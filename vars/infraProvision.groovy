@@ -2,6 +2,7 @@ def call() {
 
     echo "From infraProvision"
     echo env.configYaml.getClass().toString()
+    echo env.configYaml
 
 
 //    def cloudConfig = env.configYaml['infra']['cloud'] ?: null
@@ -11,7 +12,7 @@ def call() {
 //    if (cloudConfig) {
 //        echo cloudConfig
 //        provisionCloud(cloudConfig[0]['type'], cloudConfig[0]['count'])
-
+//
 //        cloudConfig.each { provisionCloud(it.type, it.count) }
 //        for ( config in cloudConfig ) {
 //            if (config.type == 'aws') {
